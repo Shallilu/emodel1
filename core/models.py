@@ -9,7 +9,9 @@ from django_countries.fields import CountryField
 CATEGORY_CHOICES = (
     ('S', 'Shirt'),
     ('SW', 'Sport wear'),
-    ('OW', 'Outwear')
+    ('OW', 'Outwear'),
+    ('M', 'Mobile'),
+
 )
 
 LABEL_CHOICES = (
@@ -23,6 +25,10 @@ ADDRESS_CHOICES = (
     ('S', 'Shipping'),
 )
 
+SUBSCRIPTION_CHOICES = (
+    ('SIP','SIP'),
+    ('LS', 'LumpSum'),
+)
 
 class UserProfile(models.Model):
     user = models.OneToOneField(
@@ -32,6 +38,21 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return self.user.username
+
+class Subscription(models.Model):
+    title = models.CharField(max_length=100)
+    price = models.FloatField()
+    category = models.CharField(choices=SUBSCRIPTION_CHOICES, max_length=3)
+    slug = models.SlugField()
+    description = models.TextField()
+
+    def __str__(self):
+        return self.title
+
+    def get_absolute_url(self):
+        return reverse("core:subscription", kwargs={
+            'slug': self.slug
+        })
 
 
 class Item(models.Model):

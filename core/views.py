@@ -8,7 +8,7 @@ from django.views.generic import ListView, DetailView, View
 from django.shortcuts import redirect
 from django.utils import timezone
 from .forms import CheckoutForm, CouponForm, RefundForm, PaymentForm
-from .models import Item, OrderItem, Order, Address, Payment, Coupon, Refund, UserProfile
+from .models import Item, OrderItem, Order, Address, Payment, Coupon, Refund, UserProfile, Subscription
 
 import random
 import string
@@ -33,6 +33,15 @@ def is_valid_form(values):
         if field == '':
             valid = False
     return valid
+
+
+class SubscriptionView(LoginRequiredMixin,View):
+    def get(self,*args,**kwargs):
+        subscription = Subscription.objects.all()
+        context = {
+            'subscription': subscription
+        }
+        return render(self.request, "subscription.html", context)
 
 
 class CheckoutView(View):

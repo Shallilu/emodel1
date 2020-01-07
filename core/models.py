@@ -30,6 +30,7 @@ SUBSCRIPTION_CHOICES = (
     ('LS', 'LumpSum'),
 )
 
+
 class UserProfile(models.Model):
     user = models.OneToOneField(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
@@ -38,6 +39,7 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return self.user.username
+
 
 class Subscription(models.Model):
     title = models.CharField(max_length=100)
